@@ -1,6 +1,8 @@
 # media_index_tools
 Scripts used to build a PLEX-compatible media index out of symlinks
 
+![screenshot of tree command](docs/tree_example.png)
+
 Plex likes to have things... a certain way. Look, I'm just not that
 organized, okay! I have a decade or so of content that I've finally cobbled
 together from hard drives and machines that have long since been
