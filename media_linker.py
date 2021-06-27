@@ -3,6 +3,12 @@
 # I made this to do a bulk job ONCE. no attempt at usability or generality
 #       "Your AI is just a bunch of if statements" -Anonymous
 
+__usage__ = """
+
+cat tags.csv | ./media_linker.py > links.sh
+
+"""
+
 import sys
 import csv
 import os
