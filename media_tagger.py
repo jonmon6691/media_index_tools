@@ -2,7 +2,6 @@
 import sys
 import csv
 import re
-import time
 import datetime
 
 this_year = datetime.datetime.now().year

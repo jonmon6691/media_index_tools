@@ -3,6 +3,11 @@
 # I made this to do a bulk job ONCE. no attempt at usability or generality
 #       "Your AI is just a bunch of if statements" -Anonymous
 
+# Implements the naming schemes:
+#  https://www.plexopedia.com/plex-media-server/general/organize-movie-files-plex/
+#  https://support.plex.tv/articles/naming-and-organizing-your-tv-show-files/
+
+
 __usage__ = """
 
 cat tags.csv | ./media_linker.py > links.sh
@@ -90,7 +95,7 @@ while True:
         season_tag = sorted(list(map(str.upper, matches(words, tags, 'st'))))
         if len(season_tag) > 0:
             season_tag = season_tag[0]
-            std_tag = re.match("S(\d{1,2})E(\d{1,2})$", season_tag) # S06E14
+            std_tag = re.match("S(\d{1,2})EP?(\d{1,2})$", season_tag) # S06E14
             num_tag = re.match("^(\d{1,2})$", season_tag) # 6
             x_tag = re.match("^(\d+)X(\d+)$", season_tag) # 6X14
             three_tag = re.match("^(\d)(\d\d[AB]?)$", season_tag) # 614
@@ -161,4 +166,4 @@ for src in sorted(links.keys()):
     if len(dsts) > 1:
         sizes = list(map(lambda x: os.stat(x[1]).st_size, dsts))
         dst = dsts[sizes.index(max(sizes))]
-    print("ln", "-s", f'"{os.path.relpath(dst[1],os.path.dirname(src))}"', f'"{src}"')
+    print("ln", "-sv", f'"{os.path.relpath(dst[1],os.path.dirname(src))}"', f'"{src}"', "2>/dev/null")
