@@ -22,29 +22,22 @@ organized just how PLEX likes it, and the leaves of this tree?
 Symlinks. That's it. Anyway, I like this idea, and it worked out
 good for me and I think it will work going forward too.
 
-There are a few steps:
-1. Use media_tagger.py to build a tagging CSV
-2. Go through the CSV manually and tag what parts of the
-file name of each file contribute to the name and season
-and episode. Sorry, there's no easy way here without some
-fancy AI and maybe you can pull request me that good sh\*t,
-but at least here, the tagger script makes some "educated
-guesses" about simple tags.
-3. Run media_linker.py to build the linking script. This is
-just a shell script that makes the directory structure and
-all the links by just calling mkdir and ln -s
-4. Run the script made by the linker
+# How does it work?
 
-This is VERY MUCH a do-at-your-own-risk kind of situation.
-Like I'm only putting this on github because I accidentally
-deleted the tagger script just now and github is kinda my
-defacto code backup tool, so better late than never for the
-linker script at least. Why the long readme then? Idk, just here
-chillin with the cat and got a flow going. Maybe I'll read this
-later on and remember what a farce this code was a just rewrite it.
+1. Transmission Client finished downloading something
+2. It calls transmission_target.sh with env vars that describe the torrent
+3. The script passes all the files in the torrent directory to media_tagger_ai.py
+4. The python script wraps an AI prompt to convert the torrent files names into sensible paths
+5. This works unreasonably well
+6. The python script prints the commands necessary to so the linking
+7. Its up to you to run them, or do it automatically. What could go wrong?
 
-Have a good day, also, let me know if there's a magic tool that
-already does this. I liked my link tree idea and wanted to have a
-go at implementing it so I didn't look around for something that
-would actually solve the problem.
+# Installation
+
+1. Get a google cloud account and set everything up
+    1. https://cloud.google.com/sdk/docs/install
+    2. `pip install --upgrade google-cloud-aiplatform`
+    3. `gcloud auth application-default login`
+2. Add the `transmission_target_ai.sh` script to Transmission Client
+    1. Edit -> Preferences -> Downloading -> Check "Call script...", then choose the script
 

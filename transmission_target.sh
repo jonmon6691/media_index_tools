@@ -1,16 +1,24 @@
 #!/usr/bin/env bash
-TOOLS_DIR=( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+TOOLS_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 if ! cd $TOOLS_DIR ; then
     logger -p daemon.err -t $0 "Can't find tools directory $TOOLS_DIR"
     exit 1
 fi
 
-if [[ -z $TR_TORRENT_NAME ]]; then
-    logger -p daemon.err -t $0 "Invoked without torrent name!"
-    exit 1
+if [[ -z $TR_TORRENT_DIR || -z $TR_TORRENT_NAME ]]; then
+    if [[ -z $1 ]]; then
+        logger -p daemon.err -t $0 "Invoked without torrent name!"
+        exit 1
+    else
+        TPATH=$1
+    fi
+else
+    TPATH="$TR_TORRENT_DIR/$TR_TORRENT_NAME"
 fi
 
-find "$TR_TORRENT_DIR/$TR_TORRENT_NAME" -type f | ./media_tagger_ai.py > last_run.sh; rv=$?
+
+echo $TPATH
+find "$TPATH" -type f | ./media_tagger_ai.py > last_run.sh; rv=$?
 cat last_run.sh >> linking_commands.sh
 
 # I personally review the output before running... but,

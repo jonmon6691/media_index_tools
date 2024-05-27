@@ -1,5 +1,4 @@
-*.csv
-*.txt
+*.pyc
 pushbullet_token.sh
 last_run.sh
 linking_commands.sh
