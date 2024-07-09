@@ -4,11 +4,14 @@ import vertexai
 from vertexai.generative_models import GenerativeModel
 import vertexai.preview.generative_models as generative_models
 
-def classify_torrent(filename):
-  vertexai.init(project="light-tribute-424623-e0", location="us-central1")
+def classify_torrent(filename, hint=""):
+  vertexai.init(project="light-tribute-424623-e0", location="us-west1")
   model = GenerativeModel(
     "gemini-1.5-flash-001",
   )
+
+  hint_text = f"\nHint: {hint}\n" if hint is not None else ""
+
   responses = model.generate_content(
       [f"""You are a name classifier. You take as input the raw name of a media file and you output a path where the media should be stored. 
 
@@ -34,7 +37,7 @@ Correct path: TV Shows/Human Giant/Specials/Extras/Human Giant - Stand Up Aziz A
 
 Raw filename: Fight.Club.1999.720p.BluRay.DTS-ES.x264-DON.mkv
 Correct path: Movies/Fight Club (1999).mkv
-
+{hint_text}
 Raw filename: {filename}
 Correct path:
 """],

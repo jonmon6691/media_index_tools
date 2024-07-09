@@ -7,7 +7,7 @@ import time
 
 ext_filter = [".divx", ".mpg", ".flv", ".m4v", ".VOB", ".sfv", ".wmv", ".mp4", ".mkv", ".avi"]
 
-quota_per_min = 5
+quota_per_min = 100
 
 mkdir_commands = set()
 link_commands = []
@@ -21,7 +21,7 @@ for path in sys.stdin:
 
 	try:
 		# AI magic
-		ai = classifier.classify_torrent(source.name.strip())
+		ai = classifier.classify_torrent(source.name.strip(), hint = sys.argv[1] if len(sys.argv) > 1 else None)
 		# Rate limit
 		time.sleep(60/quota_per_min)
 	except Exception as e:
@@ -29,11 +29,5 @@ for path in sys.stdin:
 		continue
 
 	target = pathlib.Path(f"/tank/multimedia/links/") / ai
-	mkdir_commands.add(f'mkdir -p "{target.parent}"')
-	link_commands.append(f'ln -sv "{os.path.relpath(source, target.parent)}" "{target}" 2>/dev/null')
+	print(f'mkdir -p "{target.parent}" && ln -sv "{os.path.relpath(source, target.parent)}" "{target}" 2>/dev/null')
 
-for cmd in mkdir_commands:
-	print(cmd)
-
-for cmd in link_commands:
-	print(cmd)
