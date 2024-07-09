@@ -30,7 +30,7 @@ for path in sys.stdin:
 
 	target = pathlib.Path(f"/tank/multimedia/links/") / ai
 	mkdir_commands.add(f'mkdir -p "{target.parent}"')
-	link_commands.append(f'ln -sv "{os.path.relpath(source, target)}" "{target}" 2>/dev/null')
+	link_commands.append(f'ln -sv "{os.path.relpath(source, target.parent)}" "{target}" 2>/dev/null')
 
 for cmd in mkdir_commands:
 	print(cmd)

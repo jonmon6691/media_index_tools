@@ -1,0 +1,16 @@
+tasks:
+  wigornot-rss:
+    rss: http://example.com/your/rss/feed/here.rss
+    download: /home/you/Downloads/
+    accept_all: yes
+    notify:
+      entries:
+        title: New RSS torrent
+        via:
+          - pushbullet:
+              api_key: your_api_key_here
+schedules:
+  - tasks: '*'
+    interval:
+      minutes: 30
+        

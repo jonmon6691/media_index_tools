@@ -23,7 +23,7 @@ cat last_run.sh >> linking_commands.sh
 
 # I personally review the output before running... but,
 # If you're brave, uncomment to blindly run code from an LLM and save yourself the hassle
-#source linking_commands.sh
+source linking_commands.sh
 
 # Send a pushbullet notification by lazily hooking ZFS config. Yeah, ZFS is a dependancy, so sue me
 # Or if you don't care, uncomment this line to wrap it up early
