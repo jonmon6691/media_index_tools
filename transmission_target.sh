@@ -18,7 +18,7 @@ fi
 
 
 echo $TPATH
-find "$TPATH" -type f | ./flexget/bin/python media_tagger_ai.py "$2" > last_run.sh; rv=$?
+find "$TPATH" -type f | ./media_tagger_ai.py "$2" > last_run.sh; rv=$?
 cat last_run.sh >> linking_commands.sh
 
 # I personally review the output before running... but,

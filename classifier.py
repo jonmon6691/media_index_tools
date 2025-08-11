@@ -1,20 +1,6 @@
-# Mostly and export from Google Cloud Vertex AI Studio circa May 2024
-
-import vertexai
-from vertexai.generative_models import GenerativeModel
-import vertexai.preview.generative_models as generative_models
-
-def classify_torrent(filename, hint=""):
-  vertexai.init(project="light-tribute-424623-e0", location="us-west1")
-  model = GenerativeModel(
-#    "gemini-1.5-flash-001", # JRW Mar 18, 2025 - Discontinued in favor of gemini-2.0-flash-lite as per google email
-     "gemini-2.0-flash-lite",
-  )
-
-  hint_text = f"\nHint: {hint}" if hint is not None else ""
-
-  responses = model.generate_content(
-      [f"""You are a name classifier. You take as input the raw name of a media file and you output a path where the media should be stored. 
+def get_prompt(filename, hint=""):
+	hint_text = f"\nHint: {hint}" if hint is not None else ""
+	prompt = f"""You are a name classifier. You take as input the raw name of a media file and you output a path where the media should be stored. Paths should only contain basic characters found on a typical US keyboard. Do not include accents on letters or any characters not found in standard english.
 
 Movies should be in the \"Movies\" parent folder with the filename being the name of the movie in Title Case, followed by the year in parenthesis, then the file extension to match the input. 
 
@@ -47,24 +33,6 @@ Correct path: Movies/Fight Club (1999).mkv
 {hint_text}
 Raw filename: {filename}
 Correct path:
-"""],
-      generation_config=generation_config,
-      safety_settings=safety_settings,
-  )
-
-  return responses.candidates[0].text.strip()
-
-
-generation_config = {
-    "max_output_tokens": 438,
-    "temperature": 0.3,
-    "top_p": 0.95,
-}
-
-safety_settings = {
-    generative_models.HarmCategory.HARM_CATEGORY_HATE_SPEECH: generative_models.HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
-    generative_models.HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: generative_models.HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
-    generative_models.HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: generative_models.HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
-    generative_models.HarmCategory.HARM_CATEGORY_HARASSMENT: generative_models.HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
-}
+"""
+	return prompt
 

@@ -2,3 +2,5 @@
 pushbullet_token.sh
 last_run.sh
 linking_commands.sh
+gemini_key.py
+
